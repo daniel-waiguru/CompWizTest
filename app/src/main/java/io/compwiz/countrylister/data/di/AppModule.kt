@@ -39,7 +39,7 @@ fun provideApiService(retrofit: Retrofit): ApiService {
     return retrofit.create(ApiService::class.java)
 }
 val appModule = module {
-    single<CountryRepository>{ CountryRepositoryImpl(get()) }
-    single<DtoToDomainMapper<Country, CountryDomain>> { CountryMapper() }
+    single<CountryRepository>{ CountryRepositoryImpl(get(), get()) }
+    single { CountryMapper() }
     single { FetchCountriesUseCase(get()) }
 }
