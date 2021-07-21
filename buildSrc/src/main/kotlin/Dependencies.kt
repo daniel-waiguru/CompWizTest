@@ -1,11 +1,12 @@
-const val kotlinVersion = "1.5.20"
+
 object BuildPlugins {
     object Versions {
         const val buildToolsVersion = "4.2.2"
         const val safeArgsPlugin = "2.3.5"
+        const val kotlinVersion = "1.5.20"
     }
     const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.buildToolsVersion}"
-    const val kotlinStdPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    const val kotlinStdPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
     const val safeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.safeArgsPlugin}"
     //Plugins
     const val androidApplication = "com.android.application"
@@ -31,9 +32,11 @@ object Libs {
         const val retrofitVersion = "2.9.0"
         const val okHttpVersion = "4.9.1"
         const val koinVersion = "3.1.2"
+        const val supportVersion = "1.0.0"
 
     }
-    const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+    const val supportV4 = "androidx.legacy:legacy-support-v4:${Versions.supportVersion}"
+    const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${BuildPlugins.Versions.kotlinVersion}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
     const val constraintLayout =
@@ -60,6 +63,7 @@ object Libs {
     //Koin for DI
     const val koinAndroid = "io.insert-koin:koin-android:${Versions.koinVersion}"
     const val koinViewModel = "io.insert-koin:koin-android-viewmodel:${Versions.koinVersion}"
+    const val glideVector = "com.github.corouteam:GlideToVectorYou:v2.0.0"
 
 }
 

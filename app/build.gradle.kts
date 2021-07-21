@@ -71,9 +71,9 @@ dependencies {
     implementation(Libs.coroutinesAndroid)
     //Glide
     implementation(Libs.glide)
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    //kapt(BuildPlugins.kotlinKapt)
+    implementation(Libs.supportV4)
+    kapt(Libs.glideAnnotation)
+    implementation(Libs.glideVector)
 
     //Test
     testImplementation(TestLibs.junit)

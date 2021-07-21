@@ -18,6 +18,7 @@
             android:layout_height="@dimen/flag_size"
             android:layout_margin="@dimen/margin_small"
             app:cardCornerRadius="@dimen/card_radius"
+            app:cardElevation="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -27,8 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@string/app_name"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_afg" />
+                android:scaleType="centerCrop"
+                tools:src="@drawable/ic_afg" />
         </com.google.android.material.card.MaterialCardView>
 
         <TextView

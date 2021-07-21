@@ -5,7 +5,7 @@ sealed class StateWrapper<out T> {
     data class Failure<T>(
         val isNetworkError: Boolean,
         val errorCode: Int?,
-        val errorMessage: String?
+        val errorMessage: String
     ) : StateWrapper<T>()
     object Loading : StateWrapper<Nothing>()
 }

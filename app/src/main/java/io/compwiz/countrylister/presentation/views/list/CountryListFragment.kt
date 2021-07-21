@@ -2,14 +2,18 @@ package io.compwiz.countrylister.presentation.views.list
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import io.compwiz.countrylister.R
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.compwiz.countrylister.data.models.StateWrapper
 import io.compwiz.countrylister.databinding.FragmentCountryListBinding
 import io.compwiz.countrylister.presentation.viewmodels.CountryListViewModel
+import io.compwiz.countrylister.presentation.views.adapter.CountryAdapter
+import io.compwiz.countrylister.utils.gone
+import io.compwiz.countrylister.utils.snackBar
+import io.compwiz.countrylister.utils.visible
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CountryListFragment : Fragment() {
@@ -26,16 +30,42 @@ class CountryListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupUi()
         countryListViewModel.fetchCountries()
-        subscribers()
     }
-    private fun subscribers() {
+    private fun setupUi() {
+        val adapter = createAdapter()
+        setupRecyclerView(adapter)
+        observeViewState(adapter)
+    }
+    private fun observeViewState(adapter: CountryAdapter) {
         countryListViewModel.resState.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is StateWrapper.Success -> {
-                    Log.d("Me", state.value.toString())
+                    binding.progress.gone()
+                    adapter.submitList(state.value)
+                    Log.d("Countries", state.value.toString())
+                }
+                is StateWrapper.Failure -> {
+                    binding.progress.gone()
+                    snackBar(state.errorMessage) {
+                        countryListViewModel.fetchCountries()
+                    }
+                }
+                is StateWrapper.Loading -> {
+                    binding.progress.visible()
                 }
             }
+        }
+    }
+    private fun createAdapter(): CountryAdapter {
+        return CountryAdapter()
+    }
+    private fun setupRecyclerView(adapter: CountryAdapter) {
+        binding.countryRv.apply {
+            this.adapter = adapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
         }
     }
     override fun onDestroyView() {

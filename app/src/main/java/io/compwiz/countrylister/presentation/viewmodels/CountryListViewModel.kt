@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.compwiz.countrylister.data.models.StateWrapper
-import io.compwiz.countrylister.domain.exceptions.HttpException
 import io.compwiz.countrylister.domain.model.CountryDomain
 import io.compwiz.countrylister.domain.use_case.FetchCountriesUseCase
 import kotlinx.coroutines.flow.catch
@@ -26,22 +25,11 @@ class CountryListViewModel (
                     _resState.value = StateWrapper.Loading
                 }
                 .catch { exception ->
-                    when (exception) {
-                        is HttpException -> {
-                            _resState.value = StateWrapper.Failure(
-                                false,
-                                exception.code(),
-                                exception.message
-                            )
-                        }
-                        else -> {
-                            _resState.value = StateWrapper.Failure(
-                                true,
-                                null,
-                                "No connection available"
-                            )
-                        }
-                    }
+                    _resState.value = StateWrapper.Failure(
+                        false,
+                        null,
+                        exception.message ?: "An error occurred!"
+                    )
                 }
                 .collect {
                     _resState.value = StateWrapper.Success(it)

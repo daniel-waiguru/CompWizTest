@@ -6,5 +6,6 @@ data class CountryDomain(
     val subRegion: String,
     val capitalCity: String,
     val alphaCode: String,
-    val population: Int
+    val population: Int,
+    val imageUrl: String
 )

@@ -11,7 +11,8 @@ class CountryMapper: DtoToDomainMapper<Country, CountryDomain> {
             subRegion = dto.subregion,
             capitalCity = dto.capital,
             alphaCode = dto.alpha2Code,
-            population = dto.population
+            population = dto.population,
+            imageUrl = dto.flag
         )
     }
 }
