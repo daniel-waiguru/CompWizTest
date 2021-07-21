@@ -1,14 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.views.details.CountryDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:id="@+id/detailsCards"
+        android:layout_margin="@dimen/card_margin"
+        app:cardCornerRadius="@dimen/card_radius"
+        app:cardElevation="@dimen/card_elevation"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:paddingBottom="@dimen/padding_bottom"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="@dimen/large_flag_size"
+                android:layout_height="@dimen/large_flag_size"
+                android:src="@drawable/ic_afg"
+                android:id="@+id/largeFlag"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/app_name"
+                />
+            <TextView
+                android:id="@+id/countryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_bold"
+                android:textAlignment="center"
+                android:layout_margin="@dimen/margin"
+                android:textSize="@dimen/title_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/largeFlag"
+                tools:text="Kenya" />
+
+            <LinearLayout
+                android:id="@+id/regionUi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_margin="@dimen/margin"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="@id/countryName"
+                app:layout_constraintStart_toStartOf="@id/countryName"
+                app:layout_constraintTop_toBottomOf="@id/countryName">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/regionChip"
+                    android:textSize="@dimen/text_size"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/margin"
+                    tools:text="Asia" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/subRegionChip"
+                    android:textSize="@dimen/text_size"
+                    android:fontFamily="@font/roboto_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin"
+                    tools:text="Southern Asia" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/capitalCity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin"
+                android:textSize="@dimen/text_size"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintEnd_toStartOf="@+id/population"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/regionUi"
+                tools:text="Nairobi" />
+
+            <TextView
+                android:id="@+id/population"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin"
+                android:textSize="@dimen/text_size"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/capitalCity"
+                app:layout_constraintTop_toBottomOf="@id/regionUi"
+                tools:text="1234567" />
+            <TextView
+                android:id="@+id/alphaCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin"
+                android:textSize="@dimen/text_size"
+                tools:text="KE"
+                android:textAlignment="center"
+                android:fontFamily="@font/roboto_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/capitalCity"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
