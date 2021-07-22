@@ -13,6 +13,7 @@ object BuildPlugins {
     const val kotlinAndroid = "android"
     const val safeArgs = "androidx.navigation.safeargs.kotlin"
     const val kotlinKapt = "kotlin-kapt"
+    const val kotlinParcelize = "kotlin-parcelize"
 }
 object AndroidSDK {
     const val compileSdkVersion = 30

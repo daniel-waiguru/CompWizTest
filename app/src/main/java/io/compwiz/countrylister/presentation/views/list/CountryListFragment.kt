@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.compwiz.countrylister.data.models.StateWrapper
 import io.compwiz.countrylister.databinding.FragmentCountryListBinding
+import io.compwiz.countrylister.domain.model.CountryDomain
 import io.compwiz.countrylister.presentation.viewmodels.CountryListViewModel
 import io.compwiz.countrylister.presentation.views.adapter.CountryAdapter
 import io.compwiz.countrylister.utils.gone
@@ -59,7 +61,17 @@ class CountryListFragment : Fragment() {
         }
     }
     private fun createAdapter(): CountryAdapter {
-        return CountryAdapter()
+        return CountryAdapter {
+            onCountryItemClicked(it)
+        }
+    }
+    private fun onCountryItemClicked(country: CountryDomain) {
+        navigateToDetailsScreen(country)
+    }
+    private fun navigateToDetailsScreen(country: CountryDomain) {
+        findNavController().navigate(
+            CountryListFragmentDirections.actionCountryListFragmentToCountryDetailsFragment(country)
+        )
     }
     private fun setupRecyclerView(adapter: CountryAdapter) {
         binding.countryRv.apply {

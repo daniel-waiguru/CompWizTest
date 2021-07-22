@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.ListAdapter
 import io.compwiz.countrylister.databinding.CountryItemBinding
 import io.compwiz.countrylister.domain.model.CountryDomain
 
-class CountryAdapter: ListAdapter<CountryDomain, CountryViewHolder>(COMPARATOR) {
+class CountryAdapter (
+    private val listener: (CountryDomain) -> Unit
+): ListAdapter<CountryDomain, CountryViewHolder>(COMPARATOR) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
         val binding = CountryItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -16,7 +18,11 @@ class CountryAdapter: ListAdapter<CountryDomain, CountryViewHolder>(COMPARATOR) 
     }
 
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
-        holder.bindItem(getItem(position))
+        val countryItem = getItem(position)
+        holder.bindItem(countryItem)
+        holder.itemView.setOnClickListener {
+            listener(countryItem)
+        }
     }
 
     object COMPARATOR: DiffUtil.ItemCallback<CountryDomain>() {

@@ -28,6 +28,7 @@
                 android:layout_height="@dimen/large_flag_size"
                 android:src="@drawable/ic_afg"
                 android:id="@+id/largeFlag"
+                android:layout_marginTop="@dimen/margin"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

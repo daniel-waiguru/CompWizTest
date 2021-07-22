@@ -3,7 +3,7 @@ plugins {
     kotlin(BuildPlugins.kotlinAndroid)
     id (BuildPlugins.safeArgs)
     id(BuildPlugins.kotlinKapt)
-    id("kotlin-android")
+    id(BuildPlugins.kotlinParcelize)
 }
 
 android {

@@ -18,5 +18,9 @@
         android:id="@+id/countryDetailsFragment"
         android:name="io.compwiz.countrylister.presentation.views.details.CountryDetailsFragment"
         android:label="fragment_country_details"
-        tools:layout="@layout/fragment_country_details" />
+        tools:layout="@layout/fragment_country_details" >
+        <argument
+            android:name="country"
+            app:argType="io.compwiz.countrylister.domain.model.CountryDomain" />
+    </fragment>
 </navigation>
