@@ -2,6 +2,7 @@ package io.compwiz.countrylister.presentation.views.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import io.compwiz.countrylister.databinding.CountryItemBinding
@@ -10,6 +11,7 @@ import io.compwiz.countrylister.domain.model.CountryDomain
 class CountryAdapter (
     private val listener: (CountryDomain) -> Unit
 ): ListAdapter<CountryDomain, CountryViewHolder>(COMPARATOR) {
+    var tracker: SelectionTracker<CountryDomain>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
         val binding = CountryItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -19,7 +21,10 @@ class CountryAdapter (
 
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         val countryItem = getItem(position)
-        holder.bindItem(countryItem)
+        tracker?.let {
+
+            holder.bindItem(countryItem, it.isSelected(countryItem))
+        }
         holder.itemView.setOnClickListener {
             listener(countryItem)
         }
@@ -35,4 +40,6 @@ class CountryAdapter (
         }
 
     }
+    fun getCountryItem(position: Int): CountryDomain = currentList[position]
+    fun getPosition(name: String) = currentList.indexOfFirst { it.name == name }
 }

@@ -34,7 +34,7 @@ object Libs {
         const val okHttpVersion = "4.9.1"
         const val koinVersion = "3.1.2"
         const val supportVersion = "1.0.0"
-
+        const val RvMultiSelectionVersion = "1.0.0"
     }
     const val supportV4 = "androidx.legacy:legacy-support-v4:${Versions.supportVersion}"
     const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${BuildPlugins.Versions.kotlinVersion}"
@@ -65,6 +65,8 @@ object Libs {
     const val koinAndroid = "io.insert-koin:koin-android:${Versions.koinVersion}"
     const val koinViewModel = "io.insert-koin:koin-android-viewmodel:${Versions.koinVersion}"
     const val glideVector = "com.github.corouteam:GlideToVectorYou:v2.0.0"
+
+    const val rvSelection = "androidx.recyclerview:recyclerview-selection:${Versions.RvMultiSelectionVersion}"
 
 }
 

@@ -26,6 +26,9 @@ fun Fragment.snackBar(message: String, duration: Int = Snackbar.LENGTH_SHORT, ca
         }
         .show()
 }
+fun Fragment.snackbar(message: String, duration: Int = Snackbar.LENGTH_SHORT) {
+    Snackbar.make(requireView(), message, duration).show()
+}
 fun ImageView.loadImage(url: Uri, isRounded: Boolean = false) {
     val loadingPlaceholder = CircularProgressDrawable(context).apply {
         strokeWidth = 5f

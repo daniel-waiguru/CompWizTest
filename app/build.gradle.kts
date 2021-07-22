@@ -69,6 +69,9 @@ dependencies {
     //Coroutines
     implementation(Libs.coroutinesCore)
     implementation(Libs.coroutinesAndroid)
+
+    //Rv
+    implementation(Libs.rvSelection)
     //Glide
     implementation(Libs.glide)
     implementation(Libs.supportV4)
