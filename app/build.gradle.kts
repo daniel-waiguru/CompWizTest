@@ -38,6 +38,17 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+    sourceSets {
+        getByName("androidTest").assets.srcDir("src/debug/assets")
+        /*map {
+            it.assets.srcDir("src/debug/assets")
+        }*/
+    }
 }
 
 dependencies {
@@ -80,6 +91,18 @@ dependencies {
 
     //Test
     testImplementation(TestLibs.junit)
+    testImplementation(TestLibs.mockWebServer)
+    testImplementation(TestLibs.mockito)
+    testImplementation(TestLibs.robolectric)
+    testImplementation(TestLibs.koinTest)
+
+    androidTestImplementation(TestLibs.mockWebServer)
     androidTestImplementation(TestLibs.androidxJunit)
     androidTestImplementation(TestLibs.espresso)
+    androidTestImplementation(TestLibs.koinTest)
+
+    debugImplementation(TestLibs.truth)
+    debugImplementation(TestLibs.androidxArchCore)
+    debugImplementation(TestLibs.coroutineTest)
+    debugImplementation(TestLibs.fragmentTesting)
 }
