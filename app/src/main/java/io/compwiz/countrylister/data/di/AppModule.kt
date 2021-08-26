@@ -1,17 +1,15 @@
 package io.compwiz.countrylister.data.di
 
 import io.compwiz.countrylister.data.common.ApiConstants.BASE_URL
+import io.compwiz.countrylister.data.dispatchers.DispatchersProviderImpl
 import io.compwiz.countrylister.data.mapper.CountryMapper
-import io.compwiz.countrylister.data.mapper.DtoToDomainMapper
-import io.compwiz.countrylister.data.models.Country
 import io.compwiz.countrylister.data.remote.ApiService
 import io.compwiz.countrylister.data.repository.CountryRepositoryImpl
-import io.compwiz.countrylister.domain.model.CountryDomain
+import io.compwiz.countrylister.domain.dispatchers.DispatchersProvider
 import io.compwiz.countrylister.domain.repository.CountryRepository
 import io.compwiz.countrylister.domain.use_case.FetchCountriesUseCase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.core.scope.get
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -42,4 +40,5 @@ val appModule = module {
     single<CountryRepository>{ CountryRepositoryImpl(get(), get()) }
     single { CountryMapper() }
     single { FetchCountriesUseCase(get()) }
+    single<DispatchersProvider>{ DispatchersProviderImpl() }
 }
