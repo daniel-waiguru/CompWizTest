@@ -17,6 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -39,15 +40,16 @@ android {
         viewBinding = true
     }
     testOptions {
+        animationsDisabled = true
         unitTests {
             isIncludeAndroidResources = true
+            isReturnDefaultValues = true
         }
     }
-    sourceSets {
-        getByName("androidTest").assets.srcDir("src/debug/assets")
-        /*map {
-            it.assets.srcDir("src/debug/assets")
-        }*/
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
+        exclude("META-INF/AL2.0")
+        exclude("META-INF/LGPL2.1")
     }
 }
 
@@ -95,11 +97,16 @@ dependencies {
     testImplementation(TestLibs.mockito)
     testImplementation(TestLibs.robolectric)
     testImplementation(TestLibs.koinTest)
+    testImplementation(TestLibs.mockk)
+    testImplementation(TestLibs.runner)
+    testImplementation(TestLibs.liveDataTest)
 
     androidTestImplementation(TestLibs.mockWebServer)
     androidTestImplementation(TestLibs.androidxJunit)
     androidTestImplementation(TestLibs.espresso)
     androidTestImplementation(TestLibs.koinTest)
+    androidTestImplementation(TestLibs.mockInstrumented)
+    androidTestImplementation(TestLibs.rules)
 
     debugImplementation(TestLibs.truth)
     debugImplementation(TestLibs.androidxArchCore)

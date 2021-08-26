@@ -83,6 +83,10 @@ object TestLibs {
         const val fragmentTestingVersion = "1.2.5"
         const val koinVersion = "3.1.2"
         const val truthVersion = "1.0.1"
+        const val mockkVersion = "1.12.0"
+        const val runner = "1.3.0"
+        const val rules = "1.3.0"
+        const val liveDataTest = "1.2.0"
     }
     const val junit = "junit:junit:${Versions.junitVersion}"
     const val androidxJunit = "androidx.test.ext:junit:${Versions.androidxJunitVersion }"
@@ -93,6 +97,12 @@ object TestLibs {
     const val coroutineTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutineTestVersion}"
     const val fragmentTesting = "androidx.fragment:fragment-testing:${Versions.fragmentTestingVersion}"
     const val mockWebServer = "com.squareup.okhttp3:mockwebserver:${Versions.mockServerVersion}"
-    const val koinTest = "org.koin:koin-test:${Versions.koinVersion}"
+    const val koinTest = "io.insert-koin:koin-test:${Versions.koinVersion}"
     const val truth = "com.google.truth:truth:${Versions.truthVersion}"
+    const val mockk = "io.mockk:mockk:${Versions.mockkVersion}"
+    const val mockInstrumented = "io.mockk:mockk-android:${Versions.mockkVersion}"
+    const val runner = "androidx.test:runner:${Versions.runner}"
+    const val rules = "androidx.test:rules:${Versions.rules}"
+    const val liveDataTest = "com.jraska.livedata:testing-ktx:${Versions.liveDataTest}"
+
 }

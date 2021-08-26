@@ -2,9 +2,10 @@ package io.compwiz.countrylister.data.repository
 
 import io.compwiz.countrylister.data.mapper.CountryMapper
 import io.compwiz.countrylister.data.remote.ApiService
-import io.compwiz.countrylister.domain.dispatchers.DispatchersProvider
 import io.compwiz.countrylister.domain.model.CountryDomain
 import io.compwiz.countrylister.domain.repository.CountryRepository
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
@@ -12,7 +13,7 @@ import kotlinx.coroutines.flow.flowOn
 class CountryRepositoryImpl(
     private val apiService: ApiService,
     private val countryMapper: CountryMapper,
-    private val dispatchersProvider: DispatchersProvider
+    private val dispatchersProvider: CoroutineDispatcher = Dispatchers.IO
 ): CountryRepository {
     override suspend fun getAllCountries(): Flow<List<CountryDomain>> {
         return flow {
@@ -20,6 +21,6 @@ class CountryRepositoryImpl(
                 countryMapper.toDomain(countryDto)
             }
             emit(countries)
-        }.flowOn(dispatchersProvider.io())
+        }.flowOn(dispatchersProvider)
     }
 }
