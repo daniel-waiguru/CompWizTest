@@ -25,10 +25,21 @@
 
 package io.compwiz.countrylister.data.local
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import io.compwiz.countrylister.data.local.entity.CountryEntity
+import kotlinx.coroutines.flow.Flow
 
-@Database(entities = [], version = 1, exportSchema = false)
-abstract class CountryDatabase: RoomDatabase() {
+@Dao
+interface CountryDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun storeCountries(countries: List<CountryEntity>)
 
+    @Query("SELECT * FROM countries")
+    fun getCountries(): Flow<List<CountryEntity>>
+
+    @Query("DELETE FROM countries")
+    suspend fun clearData()
 }

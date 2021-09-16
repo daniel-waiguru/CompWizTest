@@ -23,12 +23,14 @@
  *
  */
 
-package io.compwiz.countrylister.data.local
+package io.compwiz.countrylister.data.mapper
 
-import androidx.room.Database
-import androidx.room.RoomDatabase
+import io.compwiz.countrylister.data.local.entity.CountryEntity
+import io.compwiz.countrylister.domain.model.CountryDomain
 
-@Database(entities = [], version = 1, exportSchema = false)
-abstract class CountryDatabase: RoomDatabase() {
-
+fun CountryDomain.toEntity(): CountryEntity {
+    return CountryEntity(name, region, subRegion, capitalCity, alphaCode, population, imageUrl)
+}
+fun CountryEntity.toDomain(): CountryDomain {
+    return CountryDomain(name, region, subRegion, capitalCity, alphaCode, population, imageUrl)
 }
