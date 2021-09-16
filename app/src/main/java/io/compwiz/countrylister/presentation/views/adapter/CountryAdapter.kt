@@ -30,13 +30,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import io.compwiz.countrylister.data.local.entity.CountryEntity
 import io.compwiz.countrylister.databinding.CountryItemBinding
-import io.compwiz.countrylister.domain.model.CountryDomain
 
 class CountryAdapter (
-    private val listener: (CountryDomain) -> Unit
-): ListAdapter<CountryDomain, CountryViewHolder>(COMPARATOR) {
-    var tracker: SelectionTracker<CountryDomain>? = null
+    private val listener: (CountryEntity) -> Unit
+): ListAdapter<CountryEntity, CountryViewHolder>(COMPARATOR) {
+    var tracker: SelectionTracker<CountryEntity>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
         val binding = CountryItemBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
@@ -47,7 +47,6 @@ class CountryAdapter (
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
         val countryItem = getItem(position)
         tracker?.let {
-
             holder.bindItem(countryItem, it.isSelected(countryItem))
         }
         holder.itemView.setOnClickListener {
@@ -55,16 +54,16 @@ class CountryAdapter (
         }
     }
 
-    object COMPARATOR: DiffUtil.ItemCallback<CountryDomain>() {
-        override fun areItemsTheSame(oldItem: CountryDomain, newItem: CountryDomain): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
+    object COMPARATOR: DiffUtil.ItemCallback<CountryEntity>() {
+        override fun areItemsTheSame(oldItem: CountryEntity, newItem: CountryEntity): Boolean {
+            return oldItem.hashCode()== newItem.hashCode()
         }
 
-        override fun areContentsTheSame(oldItem: CountryDomain, newItem: CountryDomain): Boolean {
+        override fun areContentsTheSame(oldItem: CountryEntity, newItem: CountryEntity): Boolean {
             return oldItem == newItem
         }
 
     }
-    fun getCountryItem(position: Int): CountryDomain = currentList[position]
+    fun getCountryItem(position: Int): CountryEntity = currentList[position]
     fun getPosition(name: String) = currentList.indexOfFirst { it.name == name }
 }

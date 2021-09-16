@@ -29,18 +29,29 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.compwiz.countrylister.data.models.StateWrapper
-import io.compwiz.countrylister.domain.model.CountryDomain
+import io.compwiz.countrylister.data.local.entity.CountryEntity
 import io.compwiz.countrylister.domain.use_case.FetchCountriesUseCase
-import kotlinx.coroutines.flow.catch
+import io.compwiz.countrylister.utils.ResultWrapper
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 
 
 class CountryListViewModel (
     private val fetchCountryUseCase: FetchCountriesUseCase): ViewModel() {
-    private val _resState: MutableLiveData<StateWrapper<List<CountryDomain>>> = MutableLiveData()
+        //val countries = fetchCountryUseCase.invoke().asLiveData()
+    private val _resState: MutableLiveData<ResultWrapper<List<CountryEntity>>> = MutableLiveData()
+    val resState: LiveData<ResultWrapper<List<CountryEntity>>> get() = _resState
+    init {
+        fetchCountries()
+    }
+    fun fetchCountries() {
+        viewModelScope.launch {
+            fetchCountryUseCase.invoke().collect {
+                _resState.postValue(it)
+            }
+        }
+    }
+    /*private val _resState: MutableLiveData<StateWrapper<List<CountryDomain>>> = MutableLiveData()
     val resState: LiveData<StateWrapper<List<CountryDomain>>>
     get() = _resState
     fun fetchCountries() {
@@ -60,5 +71,5 @@ class CountryListViewModel (
                     _resState.value = StateWrapper.Success(it)
                 }
         }
-    }
+    }*/
 }

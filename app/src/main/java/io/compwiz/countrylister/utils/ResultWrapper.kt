@@ -27,9 +27,10 @@ package io.compwiz.countrylister.utils
 
 sealed class ResultWrapper<out T>(
     val data: T? = null,
-    val throwable: Throwable? = null
+    val errorMessage: String? = null
 ) {
     class Success<T>(data: T): ResultWrapper<T>(data)
     class Loading<T>(data: T? = null): ResultWrapper<T>(data)
-    class Failure<T>(throwable: Throwable, data: T? = null): ResultWrapper<T>(data, throwable)
+    class Failure<T>(errorMessage: String, data: T? = null): ResultWrapper<T>(data, errorMessage)
+    class NetworkError<T>(data: T? = null): ResultWrapper<T>(data)
 }

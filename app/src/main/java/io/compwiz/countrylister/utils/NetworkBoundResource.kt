@@ -25,25 +25,44 @@
 
 package io.compwiz.countrylister.utils
 
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
+import okio.IOException
+import retrofit2.HttpException
 
-inline fun <ResultType, RequestType> networkBoundResource(
+suspend inline fun <ResultType, RequestType> networkBoundResource(
+    ioDispatcher: CoroutineDispatcher,
     crossinline query: () -> Flow<ResultType>,
     crossinline fetch: suspend () -> RequestType,
     crossinline saveFetchResult: suspend (RequestType) -> Unit,
     crossinline shouldFetch: (ResultType) -> Boolean = { true }
-) = flow {
-    val data = query().first()
-    val dataFlow = if (shouldFetch(data)) {
-        emit(ResultWrapper.Loading(data))
-        try {
-            saveFetchResult(fetch())
+) = withContext(ioDispatcher) {
+    flow {
+        val data = query().first()
+        val dataFlow = if (shouldFetch(data)) {
+            emit(ResultWrapper.Loading(data))
+            try {
+                saveFetchResult(fetch())
+                query().map { ResultWrapper.Success(it) }
+            } catch (throwable: Throwable) {
+                when(throwable) {
+                    is IOException -> query().map { ResultWrapper.NetworkError(it) }
+                    is HttpException -> {
+                        query().map { ResultWrapper.Failure(throwable.message(), it) }
+                    }
+                    else -> {
+                        query().map { ResultWrapper.Failure(
+                            throwable.message ?: "An error has occurred!",
+                            it
+                        ) }
+                    }
+                }
+                //query().map { ResultWrapper.Failure(throwable, it) }
+            }
+        } else {
             query().map { ResultWrapper.Success(it) }
-        } catch (throwable: Throwable) {
-            query().map { ResultWrapper.Failure(throwable, it) }
         }
-    } else {
-        query().map { ResultWrapper.Success(it) }
+        emitAll(dataFlow)
     }
-    emitAll(dataFlow)
 }

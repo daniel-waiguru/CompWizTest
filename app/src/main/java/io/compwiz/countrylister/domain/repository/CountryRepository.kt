@@ -25,9 +25,12 @@
 
 package io.compwiz.countrylister.domain.repository
 
+import io.compwiz.countrylister.data.local.entity.CountryEntity
 import io.compwiz.countrylister.domain.model.CountryDomain
+import io.compwiz.countrylister.utils.ResultWrapper
 import kotlinx.coroutines.flow.Flow
 
 interface CountryRepository {
     suspend fun getAllCountries(): Flow<List<CountryDomain>>
+    suspend fun getCountries(): Flow<ResultWrapper<List<CountryEntity>>>
 }

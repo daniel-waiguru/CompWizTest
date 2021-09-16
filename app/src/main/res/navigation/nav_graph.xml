@@ -50,6 +50,6 @@
         tools:layout="@layout/fragment_country_details" >
         <argument
             android:name="country"
-            app:argType="io.compwiz.countrylister.domain.model.CountryDomain" />
+            app:argType="io.compwiz.countrylister.data.local.entity.CountryEntity" />
     </fragment>
 </navigation>

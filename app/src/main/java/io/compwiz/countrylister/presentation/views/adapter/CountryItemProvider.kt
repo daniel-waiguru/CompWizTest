@@ -26,15 +26,15 @@
 package io.compwiz.countrylister.presentation.views.adapter
 
 import androidx.recyclerview.selection.ItemKeyProvider
-import io.compwiz.countrylister.domain.model.CountryDomain
+import io.compwiz.countrylister.data.local.entity.CountryEntity
 
-class CountryItemKeyProvider(private val adapter: CountryAdapter): ItemKeyProvider<CountryDomain>(
+class CountryItemKeyProvider(private val adapter: CountryAdapter): ItemKeyProvider<CountryEntity>(
     SCOPE_CACHED) {
-    override fun getKey(position: Int): CountryDomain? {
+    override fun getKey(position: Int): CountryEntity? {
         return adapter.getCountryItem(position)
     }
 
-    override fun getPosition(key: CountryDomain): Int {
+    override fun getPosition(key: CountryEntity): Int {
         return adapter.getPosition(key.name)
     }
 }

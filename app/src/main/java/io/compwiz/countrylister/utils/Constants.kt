@@ -23,22 +23,8 @@
  *
  */
 
-package io.compwiz.countrylister.presentation.views.adapter
+package io.compwiz.countrylister.utils
 
-import android.view.MotionEvent
-import androidx.recyclerview.selection.ItemDetailsLookup
-import androidx.recyclerview.widget.RecyclerView
-import io.compwiz.countrylister.data.local.entity.CountryEntity
-
-class CountryDetailsLookup(
-    private val rv: RecyclerView,
-    private val items: List<CountryEntity>
-): ItemDetailsLookup<CountryEntity>() {
-    override fun getItemDetails(e: MotionEvent): ItemDetails<CountryEntity>? {
-        val view = rv.findChildViewUnder(e.x, e.y)
-        if (view != null) {
-            return (rv.getChildViewHolder(view) as CountryViewHolder).getItemDetails(items)
-        }
-        return null
-    }
+object Constants {
+    const val DB_NAME = "countries_db"
 }

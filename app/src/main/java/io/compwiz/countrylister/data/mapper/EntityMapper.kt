@@ -26,6 +26,7 @@
 package io.compwiz.countrylister.data.mapper
 
 import io.compwiz.countrylister.data.local.entity.CountryEntity
+import io.compwiz.countrylister.data.models.Country
 import io.compwiz.countrylister.domain.model.CountryDomain
 
 fun CountryDomain.toEntity(): CountryEntity {
@@ -33,4 +34,9 @@ fun CountryDomain.toEntity(): CountryEntity {
 }
 fun CountryEntity.toDomain(): CountryDomain {
     return CountryDomain(name, region, subRegion, capitalCity, alphaCode, population, imageUrl)
+}
+fun Country.toEntity(): CountryEntity {
+    return  CountryEntity(
+        name, region, subregion, capital, alpha2Code, population, flag
+    )
 }

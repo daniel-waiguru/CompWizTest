@@ -27,8 +27,9 @@ package io.compwiz.countrylister.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import io.compwiz.countrylister.data.local.entity.CountryEntity
 
-@Database(entities = [], version = 1, exportSchema = false)
+@Database(entities = [CountryEntity::class], version = 1, exportSchema = false)
 abstract class CountryDatabase: RoomDatabase() {
-
+    abstract fun countryDao(): CountryDao
 }

@@ -37,9 +37,9 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import io.compwiz.countrylister.data.models.StateWrapper
+import io.compwiz.countrylister.R
+import io.compwiz.countrylister.data.local.entity.CountryEntity
 import io.compwiz.countrylister.databinding.FragmentCountryListBinding
-import io.compwiz.countrylister.domain.model.CountryDomain
 import io.compwiz.countrylister.presentation.viewmodels.CountryListViewModel
 import io.compwiz.countrylister.presentation.views.adapter.CountryAdapter
 import io.compwiz.countrylister.presentation.views.adapter.CountryDetailsLookup
@@ -51,7 +51,7 @@ class CountryListFragment : Fragment() {
     private var _binding: FragmentCountryListBinding? = null
     private val binding get() = _binding!!
     private val countryListViewModel: CountryListViewModel by viewModel()
-    private lateinit var tracker: SelectionTracker<CountryDomain>
+    private lateinit var tracker: SelectionTracker<CountryEntity>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,20 +63,19 @@ class CountryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
-        countryListViewModel.fetchCountries()
     }
     private fun setupUi() {
         val adapter = createAdapter()
         setupRecyclerView(adapter)
         observeViewState(adapter)
     }
-    private fun setupTracker(adapter: CountryAdapter, rv: RecyclerView, items: List<CountryDomain>) {
+    private fun setupTracker(adapter: CountryAdapter, rv: RecyclerView, items: List<CountryEntity>) {
         tracker = SelectionTracker.Builder(
             "selectedCountry",
             rv,
             CountryItemKeyProvider(adapter),
             CountryDetailsLookup(rv, items),
-            StorageStrategy.createParcelableStorage(CountryDomain::class.java)
+            StorageStrategy.createParcelableStorage(CountryEntity::class.java)
         ).withSelectionPredicate(
             SelectionPredicates.createSelectAnything()
         ).build()
@@ -84,30 +83,37 @@ class CountryListFragment : Fragment() {
     }
     private fun observeViewState(adapter: CountryAdapter) {
         countryListViewModel.resState.observe(viewLifecycleOwner) { state ->
+            adapter.submitList(state.data)
+            state.data?.let {
+                setupTracker(adapter, binding.countryRv, it)
+            }
             when (state) {
-                is StateWrapper.Success -> {
-                    setupTracker(adapter, binding.countryRv, state.value)
+                is ResultWrapper.Success -> {
                     selectionObserver(tracker)
                     binding.progress.gone()
-                    adapter.submitList(state.value)
-                    Log.d("Countries", state.value.toString())
+
                 }
-                is StateWrapper.Failure -> {
+                is ResultWrapper.Failure -> {
                     binding.progress.gone()
-                    snackBar(state.errorMessage) {
+                    Log.i("List", state.data.toString())
+                    snackBar(state.errorMessage.toString()) {
                         countryListViewModel.fetchCountries()
                     }
                 }
-                is StateWrapper.Loading -> {
+                is ResultWrapper.Loading -> {
                     binding.progress.visible()
+                }
+                is ResultWrapper.NetworkError -> {
+                    binding.progress.gone()
+                    snackbar(getString(R.string.network_error))
                 }
             }
         }
     }
 
-    private fun selectionObserver(tracker: SelectionTracker<CountryDomain>?) {
+    private fun selectionObserver(tracker: SelectionTracker<CountryEntity>?) {
         tracker?.addObserver(
-            object : SelectionTracker.SelectionObserver<CountryDomain>() {
+            object : SelectionTracker.SelectionObserver<CountryEntity>() {
                 override fun onSelectionChanged() {
                     super.onSelectionChanged()
                     val selectedItems = tracker.selection.toList()
@@ -132,10 +138,10 @@ class CountryListFragment : Fragment() {
             onCountryItemClicked(it)
         }
     }
-    private fun onCountryItemClicked(country: CountryDomain) {
+    private fun onCountryItemClicked(country: CountryEntity) {
         navigateToDetailsScreen(country)
     }
-    private fun navigateToDetailsScreen(country: CountryDomain) {
+    private fun navigateToDetailsScreen(country: CountryEntity) {
         findNavController().navigate(
             CountryListFragmentDirections.actionCountryListFragmentToCountryDetailsFragment(country)
         )

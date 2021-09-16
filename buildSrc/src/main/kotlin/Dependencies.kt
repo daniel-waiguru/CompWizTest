@@ -110,7 +110,8 @@ object Libs {
     const val glideVector = "com.github.corouteam:GlideToVectorYou:v2.0.0"
 
     const val rvSelection = "androidx.recyclerview:recyclerview-selection:${Versions.RvMultiSelectionVersion}"
-    const val room = "androidx.room:room-runtime:${Versions.roomVersion}"
+    const val roomRuntime = "androidx.room:room-runtime:${Versions.roomVersion}"
+    const val room = "androidx.room:room-ktx:${Versions.roomVersion}"
     const val roomProcessor = "androidx.room:room-compiler:${Versions.roomVersion}"
     const val paging3 = "androidx.room:room-testing:${Versions.paging3Version}"
 

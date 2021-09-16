@@ -32,8 +32,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import io.compwiz.countrylister.data.local.entity.CountryEntity
 import io.compwiz.countrylister.databinding.FragmentCountryDetailsBinding
-import io.compwiz.countrylister.domain.model.CountryDomain
 import io.compwiz.countrylister.utils.loadImage
 
 class CountryDetailsFragment : Fragment() {
@@ -55,7 +55,7 @@ class CountryDetailsFragment : Fragment() {
         val country = getCountryArg()
         showDetails(country)
     }
-    private fun showDetails(country: CountryDomain) {
+    private fun showDetails(country: CountryEntity) {
         with(binding) {
             largeFlag.loadImage(Uri.parse(country.imageUrl))
             countryName.text = country.name
@@ -66,7 +66,7 @@ class CountryDetailsFragment : Fragment() {
             alphaCode.text = country.alphaCode
         }
     }
-    private fun getCountryArg(): CountryDomain {
+    private fun getCountryArg(): CountryEntity{
         val args by navArgs<CountryDetailsFragmentArgs>()
         return args.country
     }

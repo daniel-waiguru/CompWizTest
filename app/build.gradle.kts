@@ -95,6 +95,7 @@ dependencies {
 
     //Room - Caching
     implementation(Libs.room)
+    implementation(Libs.roomRuntime)
     kapt(Libs.roomProcessor)
 
     //Paging
