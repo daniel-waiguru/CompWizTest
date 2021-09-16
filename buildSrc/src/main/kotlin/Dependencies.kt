@@ -22,14 +22,47 @@
  * SOFTWARE.
  *
  */
+object Versions {
+    const val buildToolsVersion = "4.2.2"
+    const val safeArgsPlugin = "2.3.5"
+    const val kotlinVersion = "1.5.20"
 
+    const val coreKtxVersion = "1.6.0"
+    const val appCompatVersion = "1.3.0"
+    const val constraintVersion = "2.0.4"
+    const val uiKtxVersion = "2.3.3"
+    const val materialVersion = "1.4.0"
+    const val coroutinesVersion = "1.5.0"
+    const val glideVersion = "4.11.0"
+    const val lifecycleVersion = "2.4.0-alpha02"
+    const val retrofitVersion = "2.9.0"
+    const val okHttpVersion = "4.9.1"
+    const val koinVersion = "3.1.2"
+    const val supportVersion = "1.0.0"
+    const val RvMultiSelectionVersion = "1.0.0"
+
+    //Tests
+    const val junitVersion = "4.13.2"
+    const val androidxJunitVersion = "1.1.3"
+    const val espressoVersion = "3.4.0"
+    const val mockitoVersion = "3.5.15"
+    const val mockServerVersion = "4.9.0"
+    const val robolectricVersion = "4.4"
+    const val androidxCoreTestVersion = "2.1.0"
+    const val coroutineTestVersion = "1.4.2"
+    const val fragmentTestingVersion = "1.3.6"
+    const val truthVersion = "1.0.1"
+    const val mockkVersion = "1.12.0"
+    const val runner = "1.3.0"
+    const val rules = "1.3.0"
+    const val liveDataTest = "1.2.0"
+    const val kakao = "3.0.2"
+    const val espressoRv = "3.4.0"
+    const val roomVersion = "2.3.0"
+    const val paging3Version = "2.4.0-alpha04"
+}
 
 object BuildPlugins {
-    object Versions {
-        const val buildToolsVersion = "4.2.2"
-        const val safeArgsPlugin = "2.3.5"
-        const val kotlinVersion = "1.5.20"
-    }
     const val androidGradlePlugin = "com.android.tools.build:gradle:${Versions.buildToolsVersion}"
     const val kotlinStdPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
     const val safeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.safeArgsPlugin}"
@@ -46,23 +79,8 @@ object AndroidSDK {
     const val minSdk = 21
 }
 object Libs {
-    private object Versions {
-        const val coreKtxVersion = "1.6.0"
-        const val appCompatVersion = "1.3.0"
-        const val constraintVersion = "2.0.4"
-        const val uiKtxVersion = "2.3.3"
-        const val materialVersion = "1.4.0"
-        const val coroutinesVersion = "1.5.0"
-        const val glideVersion = "4.11.0"
-        const val lifecycleVersion = "2.4.0-alpha02"
-        const val retrofitVersion = "2.9.0"
-        const val okHttpVersion = "4.9.1"
-        const val koinVersion = "3.1.2"
-        const val supportVersion = "1.0.0"
-        const val RvMultiSelectionVersion = "1.0.0"
-    }
     const val supportV4 = "androidx.legacy:legacy-support-v4:${Versions.supportVersion}"
-    const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${BuildPlugins.Versions.kotlinVersion}"
+    const val kotlinStdLib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlinVersion}"
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
     const val constraintLayout =
@@ -92,29 +110,13 @@ object Libs {
     const val glideVector = "com.github.corouteam:GlideToVectorYou:v2.0.0"
 
     const val rvSelection = "androidx.recyclerview:recyclerview-selection:${Versions.RvMultiSelectionVersion}"
+    const val room = "androidx.room:room-runtime:${Versions.roomVersion}"
+    const val roomProcessor = "androidx.room:room-compiler:${Versions.roomVersion}"
+    const val paging3 = "androidx.room:room-testing:${Versions.paging3Version}"
 
 }
 
 object TestLibs {
-    private object Versions {
-        const val junitVersion = "4.13.2"
-        const val androidxJunitVersion = "1.1.3"
-        const val espressoVersion = "3.4.0"
-        const val mockitoVersion = "3.5.15"
-        const val mockServerVersion = "4.9.0"
-        const val robolectricVersion = "4.4"
-        const val androidxCoreTestVersion = "2.1.0"
-        const val coroutineTestVersion = "1.4.2"
-        const val fragmentTestingVersion = "1.3.6"
-        const val koinVersion = "3.1.2"
-        const val truthVersion = "1.0.1"
-        const val mockkVersion = "1.12.0"
-        const val runner = "1.3.0"
-        const val rules = "1.3.0"
-        const val liveDataTest = "1.2.0"
-        const val kakao = "3.0.2"
-        const val espressoRv = "3.4.0"
-    }
     const val junit = "junit:junit:${Versions.junitVersion}"
     const val androidxJunit = "androidx.test.ext:junit:${Versions.androidxJunitVersion }"
     const val espresso = "androidx.test.espresso:espresso-core:${Versions.espressoVersion}"
@@ -133,5 +135,5 @@ object TestLibs {
     const val liveDataTest = "com.jraska.livedata:testing-ktx:${Versions.liveDataTest}"
     const val kakao = "io.github.kakaocup:kakao:${Versions.kakao}"
     const val expressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espressoRv}"
-
+    const val roomTesting = "androidx.room:room-testing:${Versions.roomVersion}"
 }

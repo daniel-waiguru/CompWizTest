@@ -93,6 +93,13 @@ dependencies {
     implementation(Libs.fragmentNavigation)
     implementation(Libs.navUiKtx)
 
+    //Room - Caching
+    implementation(Libs.room)
+    kapt(Libs.roomProcessor)
+
+    //Paging
+    implementation(Libs.paging3)
+
     //Networking
     implementation(Libs.retrofit2)
     //Moshi
@@ -125,6 +132,7 @@ dependencies {
     testImplementation(TestLibs.mockk)
     testImplementation(TestLibs.runner)
     testImplementation(TestLibs.liveDataTest)
+    testImplementation(TestLibs.roomTesting)
 
     androidTestImplementation(TestLibs.mockWebServer)
     androidTestImplementation(TestLibs.androidxJunit)
