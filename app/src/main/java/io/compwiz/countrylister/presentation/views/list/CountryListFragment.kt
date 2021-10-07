@@ -1,28 +1,3 @@
-/*
- * MIT License
- *
- * Copyright (c) 2021 Daniel Waiguru
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- *
- */
-
 package io.compwiz.countrylister.presentation.views.list
 
 import android.os.Bundle
@@ -37,9 +12,9 @@ import androidx.recyclerview.selection.SelectionTracker
 import androidx.recyclerview.selection.StorageStrategy
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import io.compwiz.countrylister.R
-import io.compwiz.countrylister.data.local.entity.CountryEntity
+import io.compwiz.countrylister.data.models.StateWrapper
 import io.compwiz.countrylister.databinding.FragmentCountryListBinding
+import io.compwiz.countrylister.domain.model.CountryDomain
 import io.compwiz.countrylister.presentation.viewmodels.CountryListViewModel
 import io.compwiz.countrylister.presentation.views.adapter.CountryAdapter
 import io.compwiz.countrylister.presentation.views.adapter.CountryDetailsLookup
@@ -51,7 +26,7 @@ class CountryListFragment : Fragment() {
     private var _binding: FragmentCountryListBinding? = null
     private val binding get() = _binding!!
     private val countryListViewModel: CountryListViewModel by viewModel()
-    private lateinit var tracker: SelectionTracker<CountryEntity>
+    private lateinit var tracker: SelectionTracker<CountryDomain>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -63,19 +38,20 @@ class CountryListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUi()
+        countryListViewModel.fetchCountries()
     }
     private fun setupUi() {
         val adapter = createAdapter()
         setupRecyclerView(adapter)
         observeViewState(adapter)
     }
-    private fun setupTracker(adapter: CountryAdapter, rv: RecyclerView, items: List<CountryEntity>) {
+    private fun setupTracker(adapter: CountryAdapter, rv: RecyclerView, items: List<CountryDomain>) {
         tracker = SelectionTracker.Builder(
             "selectedCountry",
             rv,
             CountryItemKeyProvider(adapter),
             CountryDetailsLookup(rv, items),
-            StorageStrategy.createParcelableStorage(CountryEntity::class.java)
+            StorageStrategy.createParcelableStorage(CountryDomain::class.java)
         ).withSelectionPredicate(
             SelectionPredicates.createSelectAnything()
         ).build()
@@ -83,37 +59,30 @@ class CountryListFragment : Fragment() {
     }
     private fun observeViewState(adapter: CountryAdapter) {
         countryListViewModel.resState.observe(viewLifecycleOwner) { state ->
-            adapter.submitList(state.data)
-            state.data?.let {
-                setupTracker(adapter, binding.countryRv, it)
-            }
             when (state) {
-                is ResultWrapper.Success -> {
+                is StateWrapper.Success -> {
+                    setupTracker(adapter, binding.countryRv, state.value)
                     selectionObserver(tracker)
                     binding.progress.gone()
-
+                    adapter.submitList(state.value)
+                    Log.d("Countries", state.value.toString())
                 }
-                is ResultWrapper.Failure -> {
+                is StateWrapper.Failure -> {
                     binding.progress.gone()
-                    Log.i("List", state.data.toString())
-                    snackBar(state.errorMessage.toString()) {
+                    snackBar(state.errorMessage) {
                         countryListViewModel.fetchCountries()
                     }
                 }
-                is ResultWrapper.Loading -> {
+                is StateWrapper.Loading -> {
                     binding.progress.visible()
-                }
-                is ResultWrapper.NetworkError -> {
-                    binding.progress.gone()
-                    snackbar(getString(R.string.network_error))
                 }
             }
         }
     }
 
-    private fun selectionObserver(tracker: SelectionTracker<CountryEntity>?) {
+    private fun selectionObserver(tracker: SelectionTracker<CountryDomain>?) {
         tracker?.addObserver(
-            object : SelectionTracker.SelectionObserver<CountryEntity>() {
+            object : SelectionTracker.SelectionObserver<CountryDomain>() {
                 override fun onSelectionChanged() {
                     super.onSelectionChanged()
                     val selectedItems = tracker.selection.toList()
@@ -138,10 +107,10 @@ class CountryListFragment : Fragment() {
             onCountryItemClicked(it)
         }
     }
-    private fun onCountryItemClicked(country: CountryEntity) {
+    private fun onCountryItemClicked(country: CountryDomain) {
         navigateToDetailsScreen(country)
     }
-    private fun navigateToDetailsScreen(country: CountryEntity) {
+    private fun navigateToDetailsScreen(country: CountryDomain) {
         findNavController().navigate(
             CountryListFragmentDirections.actionCountryListFragmentToCountryDetailsFragment(country)
         )
